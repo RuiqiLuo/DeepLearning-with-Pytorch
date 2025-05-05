@@ -19,3 +19,29 @@
 #当完成计算后，可以调用.backward()来自动计算所有梯度
 #这个张量的所有梯度将会自动累加到.grad属性中
 
+#创建一个张量来追踪与它相关的计算
+import torch
+x=torch.ones(2,2,requires_grad=True)    #创建一个2x2的张量，并且设置requires_grad=True
+print(x)
+print("针对张量做一个操作")
+y=x+2
+#这里输出,grad_fn=<AddBackward0>,其中grad_fn表示梯度函数,它记录了这个张量是如何从其他张量计算而来的
+#而AddBackward0表示这个张量是通过加法操作计算而来的,Backward0表示这个张量是通过反向传播计算而来的
+print(y)
+print(y.grad_fn)
+print("针对y做一个操作")
+z=y*y*3
+out=z.mean()#.mean()是求平均值的函数
+print(z,out)
+
+
+#演示张量梯度运算
+p=torch.ones(2,2,requires_grad=True)
+q=p+2
+r=q*q*3
+out=r.mean()
+#反向传播
+out.backward()
+#思考这里提到的“梯度”具体指的是什么？
+print('p的梯度为：',p.grad)
+
