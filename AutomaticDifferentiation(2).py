@@ -21,3 +21,16 @@ print(x.grad)
 #这里e+02代表10的2次方，e-01代表10的-1次方
 
 #使用with torch.no_grad()停止跟踪求导
+x=torch.randn(3,requires_grad=True)
+y=x*2
+while y.data.norm()<1000:
+    y=y*2
+v=torch.tensor([0.1,1.0,0.0001],dtype=torch.float)
+#反向传播
+y.backward(v)
+#输出
+print(x.requires_grad)
+print((x**2).requires_grad)
+
+with torch.no_grad():
+    print((x**2).requires_grad)
